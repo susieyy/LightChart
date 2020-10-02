@@ -40,7 +40,7 @@ public struct CurvedChart: View {
         self.offset = offset
         self.currentValueLineType = currentValueLineType
         self.zeroValueLineType = zeroValueLineType
-        self.points = Math.stretchEdges(points(forData: data, frame: frame, offset: offset), lineWidth: lineWidth(visualType: visualType))
+        self.points = Math.stretchEdges(points(forData: data + [0.0], frame: frame, offset: offset), lineWidth: lineWidth(visualType: visualType)).dropLast()
         self.zeros = Math.stretchEdges(points(forData: data.map { _ in 0.0 }, frame: frame, offset: offset), lineWidth: lineWidth(visualType: visualType))
     }
     

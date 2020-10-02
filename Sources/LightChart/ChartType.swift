@@ -23,3 +23,9 @@ public enum CurrentValueLineType {
     case line(color: Color, lineWidth: CGFloat)
     case dash(color: Color, lineWidth: CGFloat, dash: [CGFloat])
 }
+
+public enum ZeroValueLineType {
+    case none
+    case line(color: Color, lineWidth: CGFloat)
+    case dash(color: Color, lineWidth: CGFloat, dash: [CGFloat])
+}

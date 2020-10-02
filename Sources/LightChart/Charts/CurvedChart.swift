@@ -14,7 +14,9 @@ public struct CurvedChart: View {
     private let offset: Double
     private let type: ChartVisualType
     private let currentValueLineType: CurrentValueLineType
+    private let zeroValueLineType: ZeroValueLineType
     private var points: [CGPoint] = []
+    private var zeros: [CGPoint] = []
     
     /// Creates a new `CurvedChart`
     ///
@@ -30,13 +32,16 @@ public struct CurvedChart: View {
                 frame: CGRect,
                 visualType: ChartVisualType = .outline(color: .red, lineWidth: 2),
                 offset: Double = 0,
-                currentValueLineType: CurrentValueLineType = .none) {
+                currentValueLineType: CurrentValueLineType = .none,
+                zeroValueLineType: ZeroValueLineType = .none) {
         self.data = data
         self.frame = frame
         self.type = visualType
         self.offset = offset
         self.currentValueLineType = currentValueLineType
+        self.zeroValueLineType = zeroValueLineType
         self.points = Math.stretchEdges(points(forData: data, frame: frame, offset: offset), lineWidth: lineWidth(visualType: visualType))
+        self.zeros = points.map { CGPoint(x: $0.x, y: 0.0) }
     }
     
     public var body: some View {
@@ -46,6 +51,10 @@ public struct CurvedChart: View {
                 .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                 .drawingGroup()
             line
+                .rotationEffect(.degrees(180), anchor: .center)
+                .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                .drawingGroup()
+            zero
                 .rotationEffect(.degrees(180), anchor: .center)
                 .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                 .drawingGroup()
@@ -90,6 +99,23 @@ public struct CurvedChart: View {
             case .dash(let color, let lineWidth, let dash):
                 return AnyView(
                     currentValueLinePath(points: points)
+                        .stroke(color, style: StrokeStyle(lineWidth: lineWidth, dash: dash))
+                )
+        }
+    }
+
+    private var zero: some View {
+        switch zeroValueLineType {
+            case .none:
+                return AnyView(EmptyView())
+            case .line(let color, let lineWidth):
+                return AnyView(
+                    currentValueLinePath(points: zeros)
+                        .stroke(color, style: StrokeStyle(lineWidth: lineWidth))
+                )
+            case .dash(let color, let lineWidth, let dash):
+                return AnyView(
+                    currentValueLinePath(points: zeros)
                         .stroke(color, style: StrokeStyle(lineWidth: lineWidth, dash: dash))
                 )
         }

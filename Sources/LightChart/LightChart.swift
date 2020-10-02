@@ -7,17 +7,20 @@ public struct LightChartView: View {
     private let visualType: ChartVisualType
     private let offset: Double
     private let currentValueLineType: CurrentValueLineType
+    private let zeroValueLineType: ZeroValueLineType
     
     public init(data: [Double],
                 type: ChartType = .line,
                 visualType: ChartVisualType = .outline(color: .red, lineWidth: 2),
                 offset: Double = 0,
-                currentValueLineType: CurrentValueLineType = .none) {
+                currentValueLineType: CurrentValueLineType = .none,
+                zeroValueLineType: ZeroValueLineType = .none) {
         self.data = data
         self.type = type
         self.visualType = visualType
         self.offset = offset
         self.currentValueLineType = currentValueLineType
+        self.zeroValueLineType = zeroValueLineType
     }
     
     public var body: some View {
@@ -37,7 +40,8 @@ public struct LightChartView: View {
                                          frame: frame,
                                          visualType: visualType,
                                          offset: offset,
-                                         currentValueLineType: currentValueLineType)
+                                         currentValueLineType: currentValueLineType,
+                                         zeroValueLineType: zeroValueLineType)
                 )
             case .curved:
                 return AnyView(
@@ -45,7 +49,8 @@ public struct LightChartView: View {
                                            frame: frame,
                                            visualType: visualType,
                                            offset: offset,
-                                           currentValueLineType: currentValueLineType)
+                                           currentValueLineType: currentValueLineType,
+                                           zeroValueLineType: zeroValueLineType)
                 )
         }
     }

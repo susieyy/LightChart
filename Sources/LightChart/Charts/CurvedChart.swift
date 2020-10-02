@@ -41,7 +41,7 @@ public struct CurvedChart: View {
         self.currentValueLineType = currentValueLineType
         self.zeroValueLineType = zeroValueLineType
         self.points = Math.stretchEdges(points(forData: data, frame: frame, offset: offset), lineWidth: lineWidth(visualType: visualType))
-        self.zeros = points.map { CGPoint(x: $0.x, y: 0.0) }
+        self.zeros = Math.stretchEdges(points(forData: data.map { _ in 0.0 }, frame: frame, offset: offset), lineWidth: lineWidth(visualType: visualType))
     }
     
     public var body: some View {

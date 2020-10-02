@@ -40,8 +40,10 @@ public struct LineChart: View {
         self.offset = offset
         self.currentValueLineType = currentValueLineType
         self.zeroValueLineType = zeroValueLineType
-        self.points = Math.stretchEdges(points(forData: data + [0.0], frame: frame, offset: offset), lineWidth: lineWidth(visualType: visualType)).dropLast()
-        self.zeros = Math.stretchEdges(points(forData: data.map { _ in 0.0 }, frame: frame, offset: offset), lineWidth: lineWidth(visualType: visualType))
+        let temnps = Math.stretchEdges(points(forData: data + [0.0], frame: frame, offset: offset), lineWidth: lineWidth(visualType: visualType))
+        let zero = temnps.last!
+        self.points = temnps.dropLast()
+        self.zeros = self.points.map { CGPoint(x: $0.x, y: zero.y) }
     }
     
     public var body: some View {
